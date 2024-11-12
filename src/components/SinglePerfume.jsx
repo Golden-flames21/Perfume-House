@@ -1,4 +1,6 @@
 import React from "react";
+import { CartContext } from "../context";
+import { useContext } from "react";
 
 const SinglePerfume = ({
   id,
@@ -8,7 +10,9 @@ const SinglePerfume = ({
   itemsLeft,
   oldPrice,
   rating,
+  inCart,
 }) => {
+  const { addToCart } = useContext(CartContext);
   return (
     <div
       style={{ width: "256.62px" }}
@@ -25,7 +29,16 @@ const SinglePerfume = ({
           <h2 className="fs-5 main-color">#{price}</h2>
           <h2 className="fs-5 text-decoration-line-through">#{oldPrice}</h2>
         </div>
-        <button style={{height: "40px"}} className="w-100 rounded-2 main-color-bg text-white border-0">Add To Cart</button>
+        <button
+          style={{ height: "40px", cursor: inCart ? "not-allowed" : "pointer" }}
+          className={`w-100 rounded-2 text-white border-0 ${
+            inCart ? "bg-secondary-subtle" : "main-color-bg"
+          }`}
+          onClick={() => addToCart({ image, title, price, id })}
+          disabled={inCart}
+        >
+          {inCart ? "Added to Cart" : "Add to Cart"}
+        </button>
       </div>
     </div>
   );
